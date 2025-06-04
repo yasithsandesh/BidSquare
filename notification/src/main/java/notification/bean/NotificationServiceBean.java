@@ -68,7 +68,7 @@ public class NotificationServiceBean implements NotificationService {
 
     @Override
     public List<Notification> getNotifications() {
-        return List.of();
+        return this.notifications;
     }
 
     int genId(){
