@@ -17,7 +17,13 @@ public class AuthSessionBean implements AuthService {
 
     @Override
     public boolean createUser(UserDTO userDTO) {
-        return  this.activeUserManager.setUser(new User(userDTO.getUsername(), userDTO.getPassword()));
+        if(userDTO.getUsername().isEmpty()){
+            return false;
+        }else if(userDTO.getPassword().isEmpty()){
+            return false;
+        }else {
+            return this.activeUserManager.setUser(new User(userDTO.getUsername(), userDTO.getPassword()));
+        }
     }
 
 

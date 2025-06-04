@@ -4,6 +4,7 @@ import core.dto.BidDTO;
 import core.model.Product;
 import jakarta.annotation.PreDestroy;
 import jakarta.enterprise.context.ApplicationScoped;
+import product.message.RabbitMqPublisher;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +48,9 @@ public class ProductManager {
                 bidMap.put(bidDTO.getUserId(),bidDTO.getBidAmount());
                 if(product.getCurrentHighestBid()<bidDTO.getBidAmount()){
                     product.setCurrentHighestBid(bidDTO.getBidAmount());
+                    String message = "User " + bidDTO.getUserId() + " placed bid " + bidDTO.getBidAmount();
+                    RabbitMqPublisher rabbitMqPublisher =  RabbitMqPublisher.getInstance();
+                    rabbitMqPublisher.publish(message);
                 }
                 return this.products;
             }
